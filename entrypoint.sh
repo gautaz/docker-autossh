@@ -1,7 +1,8 @@
 #!/bin/sh
 
-touch ${SSH_KEY_FILE:=/id_rsa}
-chmod 0400 ${SSH_KEY_FILE:=/id_rsa}
+cp ${SSH_KEY_FILE:=/id_rsa} /tmp/id_rsa
+touch /tmp/id_rsa
+chmod 0400 /tmp/id_rsa
 
 STRICT_HOSTS_KEY_CHECKING=no
 KNOWN_HOSTS=${SSH_KNOWN_HOSTS:=/known_hosts}
@@ -24,7 +25,7 @@ echo autossh \
  -o ServerAliveCountMax=1 \
  -o "ExitOnForwardFailure yes" \
  -t -t \
- -i ${SSH_KEY_FILE:=/id_rsa} \
+ -i /tmp/id_rsa \
  ${SSH_MODE:=-R} ${SSH_TUNNEL_REMOTE}:${SSH_TUNNEL_HOST}:${SSH_TUNNEL_LOCAL} \
  -p ${SSH_HOSTPORT:=22} \
  ${SSH_HOSTUSER}@${SSH_HOSTNAME}
@@ -41,7 +42,7 @@ autossh \
  -o ServerAliveCountMax=1 \
  -o "ExitOnForwardFailure yes" \
  -t -t \
- -i ${SSH_KEY_FILE:=/id_rsa} \
+ -i /tmp/id_rsa \
  ${SSH_MODE:=-R} ${SSH_TUNNEL_REMOTE}:${SSH_TUNNEL_HOST}:${SSH_TUNNEL_LOCAL} \
  -p ${SSH_HOSTPORT:=22} \
  ${SSH_HOSTUSER}@${SSH_HOSTNAME}
